@@ -1,12 +1,11 @@
 // App.js
-import React from "react";
+import React from 'react';
+import '../stylesheets/App.scss';
 
-const App = (props) => {
-  return (
-    <div>
-      <h1>Hello Team Pearl!</h1>
-    </div>
-  );
-};
+const App = props => (
+  <>
+    <h1>Hello Team Pearl!</h1>
+  </>
+);
 
 export default App;

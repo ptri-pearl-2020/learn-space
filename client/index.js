@@ -9,16 +9,24 @@
  * ************************************
  */
 
-import React from "react";
+import React from 'react';
+import ReactDOM from 'react-dom';
 // import { render } from "react-dom";
 // import { Provider } from "react-redux";
-import App from "./components/App";
-// import store from "./store";
+import App from './components/App';
+// import store from './store';
+import './stylesheets/index.scss';
 
-render(
-  // wrap the App in the Provider and pass in the store
-  //   <Provider store={store}>
+// ReactDOM.render(
+//   // wrap the App in the Provider and pass in the store
+//   <Provider store={store}>
+//     <App />
+//     ,
+//   </Provider>,
+//   document.getElementById('contents')
+// );
+
+ReactDOM.render(
   <App />,
-  //   </Provider>,
-  document.getElementById("contents")
+  document.getElementById('contents')
 );
