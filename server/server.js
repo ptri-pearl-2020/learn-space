@@ -1,14 +1,15 @@
 const express = require('express');
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-//connect to db
+// connect to db
 
 app.use(express.json());
 
 app.use(
   express.urlencoded({
-    extended: true,
+    extended: true
   })
 );
 
@@ -18,6 +19,6 @@ app.get('/', (req, res) => {
   res.end();
 });
 
-app.listen(port, () => {
-  console.log(`Listening on ${port} at: http://localhost:${port}`);
-});
+app.listen(port);
+
+console.log(`Listening on ${port} at: http://localhost:${port}`);
