@@ -1,0 +1,79 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    "no-unused-vars": "off",
+    "indent": [
+      "error",
+      2,
+      {
+        "ignoreComments": true
+      }
+    ],
+    "no-ternary": 0,
+    "no-plusplus": [
+      "off",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "max-len": [
+      0,
+      {
+        "code": 80,
+        "tabWidth": 4,
+        "ignoreUrls": true
+      }
+    ],
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "no-console": "off",
+    "func-names": [
+      "error",
+      "never"
+    ],
+    "radix": [
+      "error",
+      "as-needed"
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "allowNamedFunctions": 0,
+    "allowUnboundThis": 0,
+    "arrow-body-style": [
+      "error",
+      "as-needed"
+    ],
+    "consistent-return": [
+      "error",
+      {
+        "treatUndefinedAsUnspecified": true
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "only-multiline"
+    ],
+    "no-param-reassign": 0,
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [
+          ".js",
+          ".jsx"
+        ]
+      }
+    ]
+  }
+}
