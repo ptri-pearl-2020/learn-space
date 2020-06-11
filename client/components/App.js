@@ -2,7 +2,7 @@
 import React from 'react';
 import '../stylesheets/App.scss';
 
-const App = props => (
+const App = () => (
   <>
     <h1>Hello Team Pearl!</h1>
   </>

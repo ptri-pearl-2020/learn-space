@@ -26,7 +26,4 @@ import './stylesheets/index.scss';
 //   document.getElementById('contents')
 // );
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('contents')
-);
+ReactDOM.render(<App />, document.getElementById('contents'));

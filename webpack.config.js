@@ -10,7 +10,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
   devServer: {
     contentBase: './dist',
@@ -43,7 +43,7 @@ module.exports = {
       },
       {
         test: /\.(png|svg|jpg|gif)$/,
-        use: ['file-loader'],
+        use: ['file-loader']
       },
       { test: /\.(css)$/, use: ['style-loader', 'css-loader'] },
       {
@@ -54,12 +54,12 @@ module.exports = {
           // Translates CSS into CommonJS
           'css-loader',
           // Compiles Sass to CSS
-          'sass-loader',
-        ],
-      },
-    ],
+          'sass-loader'
+        ]
+      }
+    ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx'],
+    extensions: ['*', '.js', '.jsx']
   }
 };
