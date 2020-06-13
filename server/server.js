@@ -4,7 +4,16 @@ const port = process.env.PORT || 3000;
 //import model
 const db = require('./models/model')
 // connect to db
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const privateKEY  = fs.readFileSync(__dirname + '/private.key', 'utf8');
+const publicKEY  = fs.readFileSync(__dirname + '/public.key', 'utf8');
+const signOptions = {
+  expiresIn: "12h",
+  algorithm: "RS256"
+};
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -30,20 +39,33 @@ app.get('/dashboard', (req, res) => { //handle login
 
 app.get('/signup', (req, res) => { //handle login
   //check if email exists
-db.query('SELECT * FROM "user".members ').then(res => { //.members ... where email...etc
+  let { firstName, lastName, email, password } = {firstName:'test', lastName:'test1', email:'hash12@gmail.com', password:'test3'}
+db.query(`select email from "user".members
+where email = '${email}'`).then(queryRes => {
+    if (queryRes.rows.length > 0) {
+      console.log('Email exists')
+      //Email exists error
+    } else { //send info to database
+       const payload = {
+         email,
+       }
+      const token = jwt.sign(payload, privateKEY, signOptions);
+      //encrypt PW
+      bcrypt.hash(password, saltRounds, function(err, hash) {
+    // Store hash in your password DB.
+        const text = `INSERT INTO "user".members(firstName, lastName, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${hash}')`
+        db.query(text).then(response => {
+          console.log('Successfully added new user & encrypted pw');
+          res.send({token: token});
+        }).catch(err => console.error(err.stack));
+      });
+    }
+  }).catch(err => console.error(err.stack));
+  // res.end();
   //Query examples https://www.tutorialspoint.com/postgresql/postgresql_select_query.html;
-  console.log(res.rows)
-}).catch(err => console.error(err.stack))
+})
   //collect user data
-const text = 'INSERT INTO "user".members (name, email, password) VALUES($1, $2, $3) RETURNING *';
-const values = ['noreturn', 'noReturn@email.com', 'sd23sdf12'];
-  db.query(text, values,
- (err, res) => {
-    console.log(err, res)
-  })
 
-  res.end();
-});
 //global unknown route handler
 app.get('*', (req, res)=> {
   res.sendStatus(404);
