@@ -1,19 +1,25 @@
+/* eslint-disable prettier/prettier */
 const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
-//import model
-const db = require('./models/model')
-// connect to db
-const bcrypt = require('bcrypt');
-const saltRounds = 10;
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const privateKEY  = fs.readFileSync(__dirname + '/private.key', 'utf8');
-const publicKEY  = fs.readFileSync(__dirname + '/public.key', 'utf8');
+const bcrypt = require('bcrypt');
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+// import model and connect to the database
+const db = require('./models/model');
+
+const saltRounds = 10;
+
+const privateKEY = fs.readFileSync(`${__dirname}/private.key`, 'utf8');
+const publicKEY = fs.readFileSync(`${__dirname}/public.key`, 'utf8');
 const signOptions = {
-  expiresIn: "12h",
-  algorithm: "RS256"
+  expiresIn: '36h',
+  algorithm: 'RS256'
 };
+
+// express app to handle JSON and url encoding
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -21,73 +27,138 @@ app.use(
   })
 );
 
-// routes
-app.get('/', (req, res) => { //Landing page
+// format email by converting to lowercase, and removing periods in email handle
+const emailFormatter = userEmail => {
+  // Parse email to remove '.' and make it case insensitive
+  const emailParts = userEmail.toLowerCase().split('@');
+  const emailName = emailParts[0].replace(/\.+/g, '');
+  emailParts[0] = emailName;
+  const formattedEmail = emailParts.join('@');
+
+  return formattedEmail;
+};
+
+/**
+ * Server Routes
+ */
+
+// Landing page
+app.get('/', (req, res) => {
   res.json({ info: 'Node.js, Express, and Postgres API' });
   res.end();
 });
 
-app.get('/login', (req, res) => { //handle login
-  res.redirect(302, '/dashboard') //requires status 302 to work
-  res.end();
+// Login
+app.get('/login', async (req, res) => {
+  const { email, password } = { email: 'sam..jackson@gmail.com', password: 'abc%123' };
+  const scrubbedEmail = emailFormatter(email);
+  console.log('scrubbedEmail =', scrubbedEmail);
+  const emailQuery = `
+    SELECT * FROM "user".members
+    WHERE email = '${scrubbedEmail}'
+  `;
+
+
+  try {
+    const userData = await db.query(emailQuery);
+    const hashedPassword = userData.rows[0].password;
+    const validUserLogin = await bcrypt.compare(password, hashedPassword);
+
+    // return validUserLogin boolean to the frontend
+    return res.json({ validUserLogin });
+  } catch (error) {
+    return res.status(422).json({ errors: [{ message: `No matching email found in the database` }] });
+  }
 });
 
-app.get('/dashboard', (req, res) => { //handle login
-  res.status(200).send('Were at Dashboard!')
-  res.end();
+// User signup information validation, bcrypt password, return JWT
+app.get('/signup', async (req, res) => {
+  // check if email exists
+  // const { firstName, lastName, email, password } = {
+  //   firstName: 'Samuel',
+  //   lastName: 'Jackson',
+  //   email: 'Sam.Jackson@gmail.com',
+  //   password: 'abc%123'
+  // };
+  const { firstName, lastName, email, password } = {
+    firstName: 'Lucy',
+    lastName: 'Van Pelt',
+    email: 'Lucy.Van.Pelt@email.com',
+    password: 'T7b1$gh'
+  };
+  const scrubbedEmail = emailFormatter(email);
+  console.log('scrubbedEmail =', scrubbedEmail);
+  // SQL query to check if email already exist in the DB
+  const emailQuery = `
+    SELECT email FROM "user".members
+    WHERE email = '${scrubbedEmail}'
+  `;
+
+  // Query the database for signup email
+  let emailQueryRes= null;
+
+  try {
+    emailQueryRes = await db.query(emailQuery);
+  } catch (error) {
+    return res.status(400).json({ errors: [{ message: 'Invalid email' }] });
+  }
+
+  // If email exists error, return JSON message
+  if (emailQueryRes.rows.length > 0) {
+    return res.status(422).json({ errors: [{ message: 'Email is already registered' }] });
+  }
+
+  // If email is available store user registration information in the DB
+  const payload = {
+    email
+  };
+  // generate Jason Web Token for frontend authenticated user storage
+  const token = jwt.sign(payload, privateKEY, signOptions);
+  // encrypt password with Bcrypt
+  let hashedPassword = null;
+
+  try {
+    hashedPassword = await bcrypt.hash(password, saltRounds);
+    console.log('hashedPassword =', hashedPassword);
+  } catch (error) {
+    return res.status(400).json({ errors: [{ message: `Bcrypt hashing error: ${error}` }] });
+  }
+
+  // Store user signup information with encrypted password into DB.
+  const insertUserQuery = `
+    INSERT INTO "user".members (firstName, lastName, email, password)
+    VALUES ('${firstName}', '${lastName}', '${scrubbedEmail}', '${hashedPassword}')`;
+
+  try {
+    const dbInsertResponse = await db.query(insertUserQuery);
+    console.log(`\nSuccessfully added new user and encrypted password with: ${dbInsertResponse.command} and ${dbInsertResponse.rowCount} row inserted\n`);
+    return res.send({ token });
+  } catch (error) {
+    return res.status(400).json({ errors: [{ message: `Datbase user save error: ${error}` }] });
+  }
 });
 
-app.get('/signup', (req, res) => { //handle login
-  //check if email exists
-  let { firstName, lastName, email, password } = {firstName:'test', lastName:'test1', email:'hash12@gmail.com', password:'test3'}
-db.query(`select email from "user".members
-where email = '${email}'`).then(queryRes => {
-    if (queryRes.rows.length > 0) {
-      console.log('Email exists')
-      //Email exists error
-    } else { //send info to database
-       const payload = {
-         email,
-       }
-      const token = jwt.sign(payload, privateKEY, signOptions);
-      //encrypt PW
-      bcrypt.hash(password, saltRounds, function(err, hash) {
-    // Store hash in your password DB.
-        const text = `INSERT INTO "user".members(firstName, lastName, email, password) VALUES ('${firstName}', '${lastName}', '${email}', '${hash}')`
-        db.query(text).then(response => {
-          console.log('Successfully added new user & encrypted pw');
-          res.send({token: token});
-        }).catch(err => console.error(err.stack));
-      });
-    }
-  }).catch(err => console.error(err.stack));
-  // res.end();
-  //Query examples https://www.tutorialspoint.com/postgresql/postgresql_select_query.html;
-})
-  //collect user data
-
-//global unknown route handler
-app.get('*', (req, res)=> {
+// global unknown route handler
+app.get('*', (req, res) => {
   res.sendStatus(404);
-})
-//global error handler
-app.use(function(err, req, res, next) {
+});
+
+// global error handler
+app.use((err, req, res, next) => {
   const defaultError = {
     log: 'Express error handler caught and unknown middleware error',
     status: 400,
-    message: {err: 'An error has occured'},
-  }
-  const newErr = Object.assign(defaultError, err); //reassigning error
+    message: { err: 'An error has occured' }
+  };
+  const newErr = Object.assign(defaultError, err); // reassigning error
   console.error(newErr.log);
   res.status(newErr.status).send(newErr.message);
-})
 
+  return next();
+});
 
-app.listen(port); //3000
+app.listen(port); // 3000
 
 console.log(`Listening on ${port} at: http://localhost:${3000}`);
-
-
-
 
 //
