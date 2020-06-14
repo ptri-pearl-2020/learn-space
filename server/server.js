@@ -1,11 +1,16 @@
 /* eslint-disable prettier/prettier */
 const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+// Serve favicon for the site
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 // import model and connect to the database
 const db = require('./models/model');
