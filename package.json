@@ -4,8 +4,8 @@
   "description": "Learn Space is an App for user to test their coding skills",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "nodemon ./server/server.js",
-    "dev": "concurrently \"nodemon ./server/server.js\" \"webpack-dev-server\"",
+    "start": "nodemon ./server/app.js",
+    "dev": "concurrently \"nodemon ./server/app.js\" \"webpack-dev-server\"",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
