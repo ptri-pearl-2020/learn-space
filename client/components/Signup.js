@@ -41,48 +41,60 @@ const Signup = () => {
   };
 
   return (
-    <div id="signup" className="center">
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
-        <label>First Name</label>
-        <input
-          type="firstName"
-          placeholder="First Name"
-          name="firstName"
-          value={firstName}
-          onChange={(e) => onChange(e)}
-          required
-        />
-        <label>Last Name</label>
-        <input
-          type="lastName"
-          placeholder="Last Name"
-          name="lastName"
-          value={lastName}
-          onChange={(e) => onChange(e)}
-          required
-        />
-        <label>Email</label>
-        <input
-          type="email"
-          placeholder="Email Address"
-          name="email"
-          value={email}
-          onChange={(e) => onChange(e)}
-          required
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          minLength="6"
-          value={password}
-          onChange={(e) => onChange(e)}
-          required
-        />
+    <div id="signup" className="container">
+      <div className="form-wrap">
+        <form onSubmit={(e) => onSubmit(e)}>
+          <div className="form-group">
+            <label>First Name</label>
+            <input
+              type="firstName"
+              placeholder="First Name"
+              name="firstName"
+              value={firstName}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Last Name</label>
+            <input
+              type="lastName"
+              placeholder="Last Name"
+              name="lastName"
+              value={lastName}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Email Address"
+              name="email"
+              value={email}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              minLength="6"
+              value={password}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
 
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
+          <button type="submit" value="signup">
+            Sign Up
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
