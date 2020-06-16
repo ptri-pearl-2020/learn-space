@@ -1,8 +1,196 @@
 @import 'colors';
 
+* {
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+}
+
+body {
+  background: #344a72;
+  line-height: 1.8;
+  display: block;
+}
+
+// Landing
+
+#navbar{
+  width:100%;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 2rem;
+  position: fixed; // when scrolling, will always be in the same position
+  z-index: 1;
+  top: 0; //no top margin
+  background: black;
+  color: white;
+  opacity: .9;
+}
+
+#navbar ul {
+  display: flex;
+}
+
+ul {
+ list-style: none;
+}
+
+#navbar a {
+  padding: .45rem;
+  margin: 0 0.25rem;
+  color: white;
+  text-decoration: none;
+}
+
+#navbar a:hover{
+  color: lightblue;
+}
+
+.landing{
+  position: relative;
+  background: url("../assets/images/group_study.jpg") no-repeat center center/cover;
+  height: 100vh;
+  width: 100%;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.landing-inner {
+  color: #fff;
+  height: 100%;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.darkness{
+  background-color: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+}
+
+.landingButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+} 
+
+@media only screen and (min-width: 1000px){
+  .landingButtons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 400px;
+  } 
+}
+
+.landingButtons button {
+  padding: 2vh 5vw;
+  white-space: nowrap
+}
+
+// Dashboard css
+
+.dashboard {
+  max-width: 1100px;
+  margin: auto;
+  margin-top: 6rem;
+}
+
+@media (max-width: 700px){
+  .courses {
+    display: grid;
+  }    
+  .course {
+    max-width: 400px;
+    width: 70vw;
+  }
+}
+
+@media (min-width: 800px){
+  .courses{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }  
+
+  .darkness-course{
+    background-color: rgba(0,0,0,0.5);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .darkness-course:hover {
+    background-color: rgba(151, 145, 145, 0.5);
+  }
+
+  .course {
+    border: black solid;
+    max-width: 400px;
+    margin: auto 1em;
+    width: 30vw;
+    height: 50vh;
+  }
+}
+
+.js-course {  
+  background: url("../assets/images/js_logo.png") no-repeat center center/cover;
+  background-size: auto;
+}
+
+// form css
+
+// Making a container for the form that is to be centered horizontally
+.container {
+  margin: 10% auto;
+  max-width: 400px;
+}
+
+// Each label and input of the form is wrapped in this class.
+.form-wrap {
+  background: #fff;
+  padding: 10vh;
+}
+
+.form-wrap .form-group input {
+  width: 100%;
+  padding: 1em;
+  border: #ddd 1px solid;
+  border-radius: 5px;
+}
+
+.form-wrap button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 20px;
+  background: #49c1a2;
+  color: #fff;
+  cursor: pointer;
+}
+
+.form button:hover {
+  background: #37a08e
+}
+
+
+
+
 h1 {
   align-self: center;
-  color: $light-blue;
   font-size: 2.5rem;
   font-weight: 500;
   letter-spacing: 0.1rem;
@@ -17,11 +205,7 @@ h1 {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
-#navbar{
-  width:100%;
-  display:flex;
-  justify-content: flex-end;
-}
+
 
 .horizontalSpacer{
   width: 5%;

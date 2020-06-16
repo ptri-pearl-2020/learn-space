@@ -5,13 +5,21 @@ import { logout } from "../actions/auth";
 
 const Navbar = ({ logout }) => (
   <div id="navbar">
-    <Link to="/dashboard">
-      <span>Home</span>
-    </Link>
-    <span className="horizontalSpacer" />
-    <Link to="/">
-      <span onClick={logout}>Log Out</span>
-    </Link>
+    <h1>learnSpace</h1>
+    <ul>
+      <li>
+        <Link to="/dashboard">Home</Link>
+      </li>
+      <li onClick={logout}>
+        <Link to="/">Log Out</Link>
+      </li>
+      <li>
+        <Link to="/signup">Register</Link>
+      </li>
+      <li>
+        <Link to="/login">Login</Link>
+      </li>
+    </ul>
   </div>
 );
 

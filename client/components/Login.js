@@ -43,30 +43,37 @@ const Login = ({ login, isAuthenticated }) => {
   };
 
   return (
-    <div id="login" className="center">
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
-        <label>Email</label>
-        <input
-          type="email"
-          placeholder="Email Address"
-          name="email"
-          value={email}
-          onChange={(e) => onChange(e)}
-          required
-        />
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Password"
-          name="password"
-          minLength="6"
-          value={password}
-          onChange={(e) => onChange(e)}
-          required
-        />
-
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
+    <div id="login" className="container">
+      <div className="form-wrap">
+        <form className="form" onSubmit={(e) => onSubmit(e)}>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              placeholder="Email Address"
+              name="email"
+              value={email}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="Password"
+              name="password"
+              minLength="6"
+              value={password}
+              onChange={(e) => onChange(e)}
+              required
+            />
+          </div>
+          <button type="submit" value="Login">
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
