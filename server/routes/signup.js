@@ -35,8 +35,9 @@ router.post('/signup', async (req, res) => {
     email: 'Lucy.Van.Pelt@email.com',
     password: 'T7b1$gh'
   };
+
   const scrubbedEmail = emailFormatter(email);
-  console.log('scrubbedEmail =', scrubbedEmail);
+
   // SQL query to check if email already exist in the DB
   const emailQuery = `
     SELECT email FROM "user".members
@@ -68,7 +69,6 @@ router.post('/signup', async (req, res) => {
 
   try {
     hashedPassword = await bcrypt.hash(password, saltRounds);
-    console.log('hashedPassword =', hashedPassword);
   } catch (error) {
     return res.status(400).json({ errors: [{ message: `Bcrypt hashing error: ${error}` }] });
   }
@@ -79,10 +79,8 @@ router.post('/signup', async (req, res) => {
     VALUES ('${firstName}', '${lastName}', '${scrubbedEmail}', '${hashedPassword}')`;
 
   try {
-    const dbInsertResponse = await db.query(insertUserQuery);
-    console.log(
-      `\nSuccessfully added new user and encrypted password with: ${dbInsertResponse.command} and ${dbInsertResponse.rowCount} row inserted\n`
-    );
+    await db.query(insertUserQuery);
+
     return res.send({ token });
   } catch (error) {
     return res.status(400).json({ errors: [{ message: `Datbase user save error: ${error}` }] });
