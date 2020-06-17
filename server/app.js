@@ -8,6 +8,13 @@ const port = process.env.PORT || 3000;
 
 // Serve favicon for the site
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// Handle Cors and Authentication
+app.use((req, res, next) => {
+  res.set("Access-Control-Allow-Origin", "*");
+  res.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+  res.set("Access-Control-Allow-Headers", "X-Requested-With, content-type, Authorization, x-auth-token");
+  return next();
+});
 
 // route files
 const loginRoute = require('./routes/login');

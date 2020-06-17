@@ -47,6 +47,9 @@ router.post('/login', async (req, res) => {
   } catch (error) {
     return res.status(422).json({ errors: [{ message: error.message }] });
   }
+
+  // added return true to handle eslint consistent-return
+  return true;
 });
 
 module.exports = router;
