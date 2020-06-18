@@ -23,6 +23,24 @@ import {
 } from "../constants/actionTypes";
 import setAuthToken from "../utils/setAuthToken";
 
+
+/**
+ * 
+
+  try {
+    const res = await axios.post("http://localhost:3000/login", body, config);
+    console.log(res.data);
+    }
+  catch(err){
+  	console.error(err)
+  }
+}
+
+tryPost();
+
+ * 
+ */
+
 // Load User
 export const loadUser = () => (dispatch) => {
   if (localStorage.getItem("token")) {
@@ -47,79 +65,70 @@ export const loadUser = () => (dispatch) => {
   }
 };
 
-// Register User
+/**
+ * 
+ * email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+ * 
+ */
 
-// export const register = ({ name, email, password }) => async (dispatch) => {
-//   const config = {
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   };
+export const register = (email, password, firstName, lastName ) => async(dispatch) => {
+  // set the headers to explain content type
+  
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  // send body with all fields
+  const body = JSON.stringify({ email, password, firstName, lastName });
 
-//   const body = JSON.stringify({ name, email, password });
+  console.log(`Sending this body! `, body);
 
-//   try {
-//     const res = await axios.post("/api/users", body, config);
-//     dispatch({
-//       type: REGISTER_SUCCESS,
-//       payload: res.data,
-//     });
-//     dispatch(loadUser());
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-//     if (errors) {
-//       errors.forEach((error) => console.error(error.msg));
-//     }
+  try {
+    // send a post request to signup
+    const res = await axios.post("http://localhost:3000/signup", body, config);
 
-//     dispatch({
-//       type: REGISTER_FAIL,
-//     });
-//   }
-// };
+    dispatch({
+      type: REGISTER_SUCCESS,
+      payload: res.data,
+    });
 
-// Login User
+    }
+  catch(err){
+    // login fail
+  	console.error(err)
+  }
+}
 
-export const login = (email, password) => (dispatch) => {
-  // this logic is just until it's ready on the backend
-  if (
-    email.toLowerCase() === data.email.toLowerCase() &&
-    password.toLowerCase() === data.password.toLowerCase()
-  ) {
+export const login =  (email, password) => async (dispatch) => {
+  // make a post request using the email and password to the /login route
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const body = JSON.stringify({ email, password});
+
+  try {
+    const res = await axios.post("http://localhost:3000/login", body, config);
+    console.log(res.data);
+
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: { token: data.jwt.token },
+      payload: res.data,
     });
-    dispatch(loadUser());
+
+    }
+  catch(err){
+    // login fail
+  	console.error(err)
   }
-
-  // const config = {
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  // };
-
-  // const body = JSON.stringify({ email, password });
-
-  //
-
-  // try {
-  //   const res = await axios.post("/api/auth", body, config);
-  //   dispatch({
-  //     type: LOGIN_SUCCESS,
-  //     payload: res.data,
-  //   });
-  //   dispatch(loadUser());
-  // } catch (err) {
-  //   const errors = err.response.data.errors;
-  //   if (errors) {
-  //     errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
-  //   }
-
-  //   dispatch({
-  //     type: LOGIN_FAIL,
-  //   });
 };
-// };
+
 
 // logout / Clear Profile
 
