@@ -7,8 +7,6 @@ const Login = ({ login, isAuthenticated }) => {
   // this is for re-routing
   let history = useHistory();
 
-  // delete this line after backend is made. Just for test purposes.
-
   // use a hook to setup state
 
   const [formData, setFormData] = useState({
@@ -22,15 +20,6 @@ const Login = ({ login, isAuthenticated }) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   // dummy login function
-
-  // final login function will be one of the actions once redux is set up.
-  // delete this function after
-  // const login = (email, password) => {
-  //   console.log(JSON.stringify({ email, password }));
-  //   isAuthenticated = true;
-  //   // REFACTOR AFTER REDUX IS SET UP
-  //   history.push("/dashboard");
-  // };
 
   //isAuthenticated will be provided by a redux action in the future
   if (isAuthenticated) {

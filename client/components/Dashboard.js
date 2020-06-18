@@ -9,8 +9,8 @@ const Dashboard = ({ courses, score, name }) => {
   // onClick, each button should fetch data on the specific course
   // when the backEnd is ready, use a get request with a param id containing course ID
   for (let i = 0; i < courses.length; i++) {
-    const { id, courseName } = courses[i];
-    courseButtons.push(<Course id={id} key={id} courseName={courseName} />);
+    const { course_id, course_name } = courses[i];
+    courseButtons.push(<Course id={course_id} key={i} courseName={course_name} />);
   }
   return (
     <div className="dashboard">
@@ -24,7 +24,7 @@ const Dashboard = ({ courses, score, name }) => {
 const mapStateToProps = (state) => ({
   courses: state.auth.user.courses,
   score: state.auth.user.score,
-  name: state.auth.user.firstName,
+  name: state.auth.user.name_info,
 });
 
 export default connect(mapStateToProps)(Dashboard);

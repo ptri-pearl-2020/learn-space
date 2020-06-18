@@ -1,9 +1,13 @@
 import React from "react";
 
 const Course = (props) => {
-  const courseDict = { "Javascript Course": "js-course" };
+  const courseDict = { "JavaScript Course": "js-course",
+                       "Python Course": "py-course",
+                       "SQL Course": "sql-course"
+                      };
+  console.log(props.id);                      
   return (
-    <div className={`course ${courseDict[props.courseName]}`}>
+    <div className={`course ${courseDict[props.courseName]}`} id={props.id}>
       <div className="darkness-course">{props.courseName}</div>
     </div>
   );
