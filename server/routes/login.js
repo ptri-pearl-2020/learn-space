@@ -13,8 +13,8 @@ const db = require('../models/model');
 const privateKEY = fs.readFileSync(path.join(__dirname, '../', 'private.key'), 'utf8');
 // const publicKEY = fs.readFileSync(`${__dirname}/public.key`, 'utf8');
 const signOptions = {
-  expiresIn: '36h',
-  algorithm: 'RS256'
+  expiresIn: '72h'
+  // algorithm: 'RS256'
 };
 
 // format email by converting to lowercase, and removing periods in email
@@ -33,13 +33,16 @@ router.post('/login', async (req, res) => {
     const userData = await db.query(emailQuery);
     const hashedPassword = userData.rows[0].password;
     const validUserLogin = await bcrypt.compare(password, hashedPassword);
+    const userId = userData.rows[0].user_id;
     // If valid user credentials, return JWT to the frontend
     if (validUserLogin) {
       const payload = {
-        email
+        userId
       };
       // generate Jason Web Token for frontend authenticated user storage
       const token = jwt.sign(payload, privateKEY, signOptions);
+
+      // need to query database to send back courses
 
       // return validUserLogin boolean to the frontend
       return res.json({ token });
