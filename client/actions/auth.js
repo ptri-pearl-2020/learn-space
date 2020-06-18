@@ -42,27 +42,34 @@ tryPost();
  */
 
 // Load User
-export const loadUser = () => (dispatch) => {
+export const loadUser = () => async (dispatch) => {
   if (localStorage.getItem("token")) {
+    console.log(localStorage.getItem("token"));
     setAuthToken(localStorage.getItem("token"));
   }
 
-  // DELETE after backend is finished
+  // make an axios request to get the courses and score
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
 
-  if (localStorage.getItem("token") === data.jwt.token) {
+  try {
+    // send a post request to signup
+    const res = await axios.get("http://localhost:3000/dashboard", config);
+
     dispatch({
       type: USER_LOADED,
-      payload: {
-        ...data.name_info,
-        courses: data.dashboard.courses,
-        score: data.dashboard.score,
-      },
-    });
-  } else {
-    dispatch({
-      type: AUTH_ERROR,
-    });
+      payload: { ...res.data },
+    })
+
+    }
+  catch(err){
+    // login fail
+  	console.error(err)
   }
+
 };
 
 /**
@@ -96,6 +103,9 @@ export const register = (email, password, firstName, lastName ) => async(dispatc
       payload: res.data,
     });
 
+    // call the loadUser() 
+    dispatch(loadUser());
+
     }
   catch(err){
     // login fail
@@ -121,6 +131,8 @@ export const login =  (email, password) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
+
+    dispatch(loadUser());
 
     }
   catch(err){
