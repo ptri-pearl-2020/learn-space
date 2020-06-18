@@ -19,6 +19,7 @@ app.use((req, res, next) => {
 // route files
 const loginRoute = require('./routes/login');
 const signUpRoute = require('./routes/signup');
+const dashboardRoute = require('./routes/dashboard')
 
 // express app to handle JSON and url encoding
 app.use(express.json());
@@ -43,6 +44,9 @@ app.use(loginRoute);
 
 // User signup information validation, bcrypt password, return JWT
 app.use(signUpRoute);
+
+// Route to dashboard after use login or signup
+app.use(dashboardRoute);
 
 // global unknown route handler
 app.get('*', (req, res) => {
