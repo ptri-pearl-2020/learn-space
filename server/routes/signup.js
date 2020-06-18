@@ -23,19 +23,8 @@ const emailFormatter = require('../helpers/emailFormatter');
 
 router.post('/signup', async (req, res) => {
   // check if email exists
-  // const { firstName, lastName, email, password } = {
-  //   firstName: 'Samuel',
-  //   lastName: 'Jackson',
-  //   email: 'Sam.Jackson@gmail.com',
-  //   password: 'abc%123'
-  // };
-  const { firstName, lastName, email, password } = {
-    firstName: 'Lucy',
-    lastName: 'Van Pelt',
-    email: 'Lucy.Van.Pelt@email.com',
-    password: 'T7b1$gh'
-  };
-
+  const { firstName, lastName, email, password } = req.body;
+  // consistently format email to lowercase and no periods stored in DB
   const scrubbedEmail = emailFormatter(email);
 
   // SQL query to check if email already exist in the DB
