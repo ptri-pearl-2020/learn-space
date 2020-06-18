@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useHistory, Redirect } from "react-router-dom";
+import { register } from "../actions/auth";
+import { connect } from "react-redux";
 
-const Signup = () => {
+const Signup = ({ register }) => {
   let history = useHistory();
   // delete this line after backend is made. Just for test purposes.
   let isAuthenticated;
@@ -19,17 +21,7 @@ const Signup = () => {
   // when the user types, the appropriate property in state is changed
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  // dummy login function
-
-  // final signup function will be one of the actions once redux is set up.
-  // delete this function after
-  const signup = (email, password, firstName, lastName) => {
-    console.log(JSON.stringify({ email, password, firstName, lastName }));
-    isAuthenticated = true;
-    // Refactor AFTER REDUX IS SET UP
-    history.push("/dashboard");
-  };
-
+  
   //isAuthenticated will be provided by a redux action in the future
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
@@ -37,7 +29,8 @@ const Signup = () => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    signup(email, password, firstName, lastName);
+    console.log(formData);
+    register(email, password, firstName, lastName);
   };
 
   return (
@@ -99,4 +92,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default connect(null, { register })(Signup);
