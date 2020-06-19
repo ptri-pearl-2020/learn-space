@@ -56,7 +56,7 @@ app.use(coursesRoute);
 app.get('*', (req, res) => {
   res.sendStatus(404);
 });
-
+   
 // global error handler
 app.use((err, req, res, next) => {
   const defaultError = {

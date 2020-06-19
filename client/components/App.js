@@ -13,12 +13,11 @@ import store from "../store";
 import "../stylesheets/App.scss";
 import { loadUser } from "../actions/auth.js";
 import setAuthToken from "../utils/setAuthToken";
-import axios from 'axios';
+import axios from "axios";
 
 if (localStorage.getItem("token")) {
   setAuthToken(localStorage.getItem("token"));
 }
-
 
 const App = () => {
   useEffect(() => {
