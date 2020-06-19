@@ -21,7 +21,6 @@ const signOptions = {
 const emailFormatter = require('../helpers/emailFormatter');
 
 router.post('/login', async (req, res) => {
-  // const { email, password } = { email: 'sam..jackson@gmail.com', password: 'abc%123' };
   const { email, password } = req.body;
   const scrubbedEmail = await emailFormatter(email);
   const emailQuery = `

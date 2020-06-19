@@ -6,13 +6,13 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   LOGOUT,
-  CORRECT_ANSWER,
-} from "../constants/actionTypes";
+  CORRECT_ANSWER
+} from '../constants/actionTypes';
 
 const initialState = {
   isAuthenticated: null,
   loading: true,
-  user: null,
+  user: null
 };
 
 export default function (state = initialState, action) {
@@ -24,17 +24,19 @@ export default function (state = initialState, action) {
         ...state,
         isAuthenticated: true,
         loading: false,
-        user: payload,
+        user: payload
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       console.log(`Woohoo! ${type}`);
       // now that we get the token from the backend, save it to localStorage
-      localStorage.setItem("token", payload.token);
+      localStorage.setItem('token', payload.token);
+      console.log(`the payload.token after setting localStorage in authReducer = ${payload.token}`);
+      console.log('in reducer after set token in localStorage =', localStorage.getItem('token'));
       return {
         ...state,
         isAuthenticated: true,
-        loading: false,
+        loading: false
       };
     case CORRECT_ANSWER:
       const userData = { ...state.user };
@@ -44,12 +46,12 @@ export default function (state = initialState, action) {
     case AUTH_ERROR:
     case LOGIN_FAIL:
     case LOGOUT:
-      localStorage.removeItem("token");
+      localStorage.removeItem('token');
       return {
         ...state,
         token: null,
         isAuthenticated: false,
-        loading: false,
+        loading: false
       };
 
     default:

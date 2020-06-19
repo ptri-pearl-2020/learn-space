@@ -1,28 +1,27 @@
-import React, { useState } from "react";
-import { useHistory, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../actions/auth";
+import React, { useState } from 'react';
+import { useHistory, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login } from '../actions/auth';
 
-const Login = ({ login, isAuthenticated }) => {
+const Login = ({ login, isAuthenticated, user }) => {
   // this is for re-routing
-  let history = useHistory();
+  const history = useHistory();
 
   // use a hook to setup state
 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: ''
   });
 
   const { email, password } = formData;
 
   // when the user types, the appropriate property in state is changed
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
   // dummy login function
 
-  //isAuthenticated will be provided by a redux action in the future
-  if (isAuthenticated) {
+  // isAuthenticated will be provided by a redux action in the future
+  if (isAuthenticated && user) {
     return <Redirect to="/dashboard" />;
   }
 
@@ -69,6 +68,7 @@ const Login = ({ login, isAuthenticated }) => {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, { login })(Login);

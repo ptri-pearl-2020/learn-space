@@ -13,6 +13,7 @@ const db = require('../models/model');
 // set up route at dashboard for get request to translate token into user id
 router.get('/dashboard', async (req, res) => {
   const token = req.header('x-auth-token');
+  console.log(`GET request to /dashboard ${token}`);
   if (!token) return 'Some error';
 
   const { userId } = jwt.verify(token, privateKEY);

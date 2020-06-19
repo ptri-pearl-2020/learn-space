@@ -67,6 +67,8 @@ router.post('/signup', async (req, res) => {
     INSERT INTO "user".members (firstName, lastName, email, password)
     VALUES ('${firstName}', '${lastName}', '${scrubbedEmail}', '${hashedPassword}')`;
 
+  // insert into enrollments table user sign up for SQL, JS, Python
+
   try {
     await db.query(insertUserQuery);
 
