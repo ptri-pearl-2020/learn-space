@@ -9,12 +9,12 @@
  * ************************************
  */
 
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import auth from "./authReducer";
-import quest from "./questionReducer";
+import auth from './authReducer';
+import quest from './questionReducer';
 
 export default combineReducers({
   auth,
-  quest,
+  quest
 });
