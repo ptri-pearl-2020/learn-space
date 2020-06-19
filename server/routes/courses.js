@@ -32,12 +32,17 @@ router.get('/courses/:id', async (req, res) => {
     return res.status(422).json({ errors: [{ message: err.message }] }); //
   }
   // show requested questiosn
-  const quesAnsQuery = `select questions, a.id, a.answer_text from courses.questions as q INNER JOIN courses.answers as a on q.id=a.question_id
-where course_id='${req.params.id}'`;
+  const quesAnsQuery = `
+    SELECT questions, a.id, a.answer_text
+    FROM courses.questions as q
+    INNER JOIN courses.answers as a ON q.id = a.question_id
+    WHERE course_id='${req.params.id}';
+  `;
+
   try {
     // run question answer query
     const answerResult = await db.query(quesAnsQuery);
-    console.log('answerResult =', answerResult.rows);
+
     // send query result to the frontend
     return res.json(answerResult.rows);
   } catch (err) {
