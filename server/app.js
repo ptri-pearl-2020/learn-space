@@ -4,7 +4,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 
 const app = express();
-const port = process.env.PORT || 3000;
+// const port = process.env.PORT || 3000;
 
 // Serve favicon for the site
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -19,7 +19,8 @@ app.use((req, res, next) => {
 // route files
 const loginRoute = require('./routes/login');
 const signUpRoute = require('./routes/signup');
-const dashboardRoute = require('./routes/dashboard')
+const dashboardRoute = require('./routes/dashboard');
+const coursesRoute = require('./routes/courses');
 
 // express app to handle JSON and url encoding
 app.use(express.json());
@@ -48,6 +49,9 @@ app.use(signUpRoute);
 // Route to dashboard after use login or signup
 app.use(dashboardRoute);
 
+// Route to courses after for question and answers
+app.use(coursesRoute);
+
 // global unknown route handler
 app.get('*', (req, res) => {
   res.sendStatus(404);
@@ -68,6 +72,6 @@ app.use((err, req, res, next) => {
 });
 
 // Listen on port 3000
-app.listen(port);
+app.listen(3000);
 
-console.log(`Listening on ${port} at: http://localhost:${3000}`);
+// console.log(`Listening on ${port} at: http://localhost:${3000}`);
