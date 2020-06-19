@@ -9,13 +9,34 @@
  * ************************************
  */
 
-import { QUESTIONS_LOADED } from "../constants/actionTypes";
+import { QUESTIONS_LOADED, GET_NEXT_QUESTION } from "../constants/actionTypes";
 
-const initialState = {};
+const initialState = {
+  questions: [],
+  currentQuestionIndex: null,
+  currentQuestion: null,
+};
 
 export default function (state = initialState, action) {
   const { type, payload } = action;
-  if (type === QUESTIONS_LOADED)
-    return { ...state, questions: payload.questions };
-  else return state;
+  switch (type) {
+    case QUESTIONS_LOADED:
+      console.log(`Woohoo questions loaded! `, payload);
+      return {
+        ...state,
+        questions: payload,
+        currentQuestionIndex: 0,
+        currentQuestion: payload[0],
+      };
+    case GET_NEXT_QUESTION:
+      if (state.questions[state.currentQuestionIndex + 1])
+        return {
+          ...state,
+          currentQuestionIndex: state.currentQuestionIndex + 1,
+          currentQuestion: state.questions[state.currentQuestionIndex + 1],
+        };
+      else return initialState;
+    default:
+      return initialState;
+  }
 }
