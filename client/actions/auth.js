@@ -10,8 +10,8 @@
  */
 
 // import actionType constants
-import axios from 'axios';
-import data from '../data/data'; // delete after backend is set up
+import axios from "axios";
+import data from "../data/data"; //delete after backend is set up
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -19,12 +19,12 @@ import {
   LOGIN_FAIL,
   USER_LOADED,
   AUTH_ERROR,
-  LOGOUT
-} from '../constants/actionTypes';
-import setAuthToken from '../utils/setAuthToken';
+  LOGOUT,
+} from "../constants/actionTypes";
+import setAuthToken from "../utils/setAuthToken";
 
 /**
- *
+ * 
 
   try {
     const res = await axios.post("http://localhost:3000/login", body, config);
@@ -37,32 +37,33 @@ import setAuthToken from '../utils/setAuthToken';
 
 tryPost();
 
- *
+ * 
  */
 
 // Load User
 export const loadUser = () => async (dispatch) => {
-  console.log('in load user before GET request', localStorage.getItem('token'));
-  if (localStorage.getItem('token')) {
-    console.log('in load user before GET request', localStorage.getItem('token'));
-    setAuthToken(localStorage.getItem('token'));
+  if (localStorage.getItem("token")) {
+    console.log(localStorage.getItem("token"));
+    setAuthToken(localStorage.getItem("token"));
   }
 
   // make an axios request to get the courses and score
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   try {
     // send a post request to signup
-    const res = await axios.get('http://localhost:3000/dashboard', config);
-
+    console.log("Before async GET to /dashboard", new Date().toUTCString());
+    const res = await axios.get("http://localhost:3000/dashboard", config);
+    console.log("After async GET to /dashboard", new Date().toUTCString());
     dispatch({
       type: USER_LOADED,
-      payload: { ...res.data }
+      payload: { ...res.data },
     });
+    console.log("After dispatching USER_LOADED", new Date().toUTCString());
   } catch (err) {
     // login fail
     console.error(err);
@@ -70,21 +71,23 @@ export const loadUser = () => async (dispatch) => {
 };
 
 /**
- *
+ * 
  * email: "",
     password: "",
     firstName: "",
     lastName: "",
- *
+ * 
  */
 
-export const register = (email, password, firstName, lastName) => async (dispatch) => {
+export const register = (email, password, firstName, lastName) => async (
+  dispatch
+) => {
   // set the headers to explain content type
 
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   };
   // send body with all fields
   const body = JSON.stringify({ email, password, firstName, lastName });
@@ -93,12 +96,13 @@ export const register = (email, password, firstName, lastName) => async (dispatc
 
   try {
     // send a post request to signup
-    const res = await axios.post('http://localhost:3000/signup', body, config);
+    const res = await axios.post("http://localhost:3000/signup", body, config);
 
     dispatch({
       type: REGISTER_SUCCESS,
-      payload: res.data
+      payload: res.data,
     });
+    console.log("After dispatching REGISTER_SUCCESS", new Date().toUTCString());
 
     // call the loadUser()
     dispatch(loadUser());
@@ -112,23 +116,23 @@ export const login = (email, password) => async (dispatch) => {
   // make a post request using the email and password to the /login route
   const config = {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
   };
 
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post('http://localhost:3000/login', body, config);
-    console.log('from login function in auth.js', res.data);
+    const res = await axios.post("http://localhost:3000/login", body, config);
 
+    console.log("LOGIN_SUCCESS", new Date().toUTCString());
     dispatch({
       type: LOGIN_SUCCESS,
-      payload: res.data
+      payload: res.data,
     });
-    console.log('about to run loadUser()');
+
+    // call the loadUser()
     dispatch(loadUser());
-    console.log('in login action file after dispatch(loadUser())');
   } catch (err) {
     // login fail
     console.error(err);
