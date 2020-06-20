@@ -13,14 +13,14 @@ export const checkAnswer = (checkedId) => async (dispatch) => {
     },
   };
   const url = `http://localhost:3000/answers/`;
-  const body = { id: checkedId};
+  const body = JSON.stringify({ id: checkedId});
 
   try {
     // send a post request to answers
     const res = await axios.post(
       url,
-      config,
-      body, 
+      body,
+      config
     );
     //check key
     //if res data has

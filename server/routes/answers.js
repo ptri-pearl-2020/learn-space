@@ -13,6 +13,7 @@ const privateKEY = fs.readFileSync(path.join(__dirname, '../', 'private.key'), '
 
 router.post('/answers', async (req, res) => {
   const { id } = req.body;
+    console.log('REQ BODY ID? ', JSON.stringify(req.body))
   // decrypt userid
   const token = req.header('x-auth-token');
   console.log(`GET request to /dashboard ${token}`);

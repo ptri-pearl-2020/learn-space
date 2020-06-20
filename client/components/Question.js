@@ -27,9 +27,10 @@ const Question = ({ currentQ, newQuestion, checkAnswer }) => {
     e.preventDefault();
     console.log(`checkedId `, checkedId);
     //update score - make post req to answer route
-    checkAnswer(checkedId);
+    // checkAnswer(checkedId); //BUG Deletes all questions from state
+    console.log('about to Invote NEW QUESTION ')
     newQuestion();
-    console.log('clearning Out checkID?? ')
+    console.log('clearning Out checkID ')
     changeOption({
       checkedName: "",
       checkedId: null,
