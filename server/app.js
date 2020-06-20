@@ -21,6 +21,7 @@ const loginRoute = require('./routes/login');
 const signUpRoute = require('./routes/signup');
 const dashboardRoute = require('./routes/dashboard');
 const coursesRoute = require('./routes/courses');
+const answersRoute = require('./routes/answers');
 
 // express app to handle JSON and url encoding
 app.use(express.json());
@@ -52,11 +53,14 @@ app.use(dashboardRoute);
 // Route to courses after for question and answers
 app.use(coursesRoute);
 
+// Route for questions
+app.use(answersRoute);
+
 // global unknown route handler
 app.get('*', (req, res) => {
   res.sendStatus(404);
 });
-   
+
 // global error handler
 app.use((err, req, res, next) => {
   const defaultError = {

@@ -29,12 +29,13 @@ router.post('/signup', async (req, res) => {
 
   // SQL query to check if email already exist in the DB
   const emailQuery = `
-    SELECT email FROM "user".members
+    SELECT * FROM "user".members
     WHERE email = '${scrubbedEmail}'
   `;
 
   // Query the database for signup email
   let emailQueryRes = null;
+  let userId = null;
 
   try {
     emailQueryRes = await db.query(emailQuery);
@@ -47,12 +48,6 @@ router.post('/signup', async (req, res) => {
     return res.status(422).json({ errors: [{ message: 'Email is already registered' }] });
   }
 
-  // If email is available store user registration information in the DB
-  const payload = {
-    email
-  };
-  // generate Jason Web Token for frontend authenticated user storage
-  const token = jwt.sign(payload, privateKEY, signOptions);
   // encrypt password with Bcrypt
   let hashedPassword = null;
 
@@ -76,7 +71,7 @@ router.post('/signup', async (req, res) => {
   }
 
   // insert into enrollments table user sign up for SQL, JS, Python
-  let userId = null;
+  let token = null;
   try {
     // need to get user id from the database for the newly created user
     const userIdQuery = `
@@ -85,7 +80,23 @@ router.post('/signup', async (req, res) => {
       WHERE email = '${scrubbedEmail}';
     `;
     userId = await db.query(userIdQuery);
-    userId = userId.rows[0].user_id;
+    userId = userId.rows[0].user_id; // If email is available store user registration information in the DB
+    const payload = {
+      userId
+    };
+    // generate Jason Web Token for frontend authenticated user storage
+    token = jwt.sign(payload, privateKEY, signOptions);
+  } catch (err) {
+    console.error(`New user_id query to database in new user sign: ${err}`);
+  }
+
+  try {
+    // need to get user id from the database for the newly created user
+    const scoreboardQuery = `
+      INSERT INTO "user".score_board (user_id)
+      VALUES ('${userId}');
+    `;
+    await db.query(scoreboardQuery);
   } catch (err) {
     console.error(`New user_id query to database in new user sign: ${err}`);
   }

@@ -1,29 +1,26 @@
-import React, { useState } from "react";
-import { useHistory, Redirect } from "react-router-dom";
-import { register } from "../actions/auth";
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { register } from '../actions/auth';
 
-const Signup = ({ register }) => {
-  let history = useHistory();
+const Signup = ({ register, isAuthenticated, user }) => {
   // delete this line after backend is made. Just for test purposes.
-  let isAuthenticated;
 
   // use a hook to setup state
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: ''
   });
 
   const { email, password, firstName, lastName } = formData;
 
   // when the user types, the appropriate property in state is changed
-  const onChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  
-  //isAuthenticated will be provided by a redux action in the future
-  if (isAuthenticated) {
+  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  // isAuthenticated will be provided by a redux action in the future
+  if (isAuthenticated && user) {
     return <Redirect to="/dashboard" />;
   }
 
@@ -92,4 +89,9 @@ const Signup = ({ register }) => {
   );
 };
 
-export default connect(null, { register })(Signup);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+  user: state.auth.user
+});
+
+export default connect(mapStateToProps, { register })(Signup);

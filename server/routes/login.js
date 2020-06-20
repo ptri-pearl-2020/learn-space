@@ -1,29 +1,26 @@
-const express = require("express");
-const path = require("path");
-const fs = require("fs");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const express = require('express');
+const path = require('path');
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const router = express.Router();
 
 // import model and connect to the database
-const db = require("../models/model");
+const db = require('../models/model');
 
 // Hash and authentication variables
-const privateKEY = fs.readFileSync(
-  path.join(__dirname, "../", "private.key"),
-  "utf8"
-);
+const privateKEY = fs.readFileSync(path.join(__dirname, '../', 'private.key'), 'utf8');
 // const publicKEY = fs.readFileSync(`${__dirname}/public.key`, 'utf8');
 const signOptions = {
-  expiresIn: "72h",
+  expiresIn: '72h'
   // algorithm: 'RS256'
 };
 
 // format email by converting to lowercase, and removing periods in email
-const emailFormatter = require("../helpers/emailFormatter");
+const emailFormatter = require('../helpers/emailFormatter');
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   const scrubbedEmail = await emailFormatter(email);
   const emailQuery = `
@@ -39,7 +36,7 @@ router.post("/login", async (req, res) => {
     // If valid user credentials, return JWT to the frontend
     if (validUserLogin) {
       const payload = {
-        userId,
+        userId
       };
       // generate Jason Web Token for frontend authenticated user storage
 
@@ -48,7 +45,7 @@ router.post("/login", async (req, res) => {
       // need to query database to send back courses
 
       // return validUserLogin boolean to the frontend
-      console.log("Sending jwt after login", new Date().toUTCString());
+      console.log('Sending jwt after login', new Date().toUTCString());
       return res.json({ token });
     }
   } catch (error) {
