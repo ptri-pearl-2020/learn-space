@@ -43,8 +43,8 @@ export default function (state = initialState, action) {
       userData.score++;
       return { ...state, user: userData };
 
-      case WRONG_ANSWER:
-        return state;
+    case WRONG_ANSWER:
+      return state;
 
     case REGISTER_FAIL:
     case AUTH_ERROR:
