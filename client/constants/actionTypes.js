@@ -23,5 +23,6 @@ export const LOGOUT = "LOGOUT";
 export const GET_PROFILE = "GET_PROFILE";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const CORRECT_ANSWER = "CORRECT_ANSWER";
+export const WRONG_ANSWER = "WRONG_ANSWER";
 export const QUESTIONS_LOADED = "QUESTIONS_LOADED";
 export const GET_NEXT_QUESTION = "NEXT_QUESTION";

@@ -1,22 +1,39 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { newQuestion } from "../actions/questions";
 // the Dashboard will trigger the load questions action and load the course's questions into state.questions
+import { checkAnswer } from "../actions/questions";
 
-const Question = ({ currentQ, newQuestion }) => {
+const Question = ({ currentQ, newQuestion, checkAnswer }) => {
   if (!currentQ) return <Redirect to="/dashboard" />;
   const currentQAnswers = currentQ.answers;
 
   const [checkedOption, changeOption] = useState({
-    checkedName: "answer0",
+    checkedName: "",
     checkedId: null,
+    currentQId: currentQ.questionText,
   });
   const { checkedName, checkedId } = checkedOption;
+  useEffect(() => {
+    console.log('clearning Out checkID ')
+    changeOption({
+      checkedName: "",
+      checkedId: null,
+      currentQId: currentQ.questionText,
+    })
+  }, [])
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(`checkedId `, checkedId);
+    //update score - make post req to answer route
+    checkAnswer(checkedId);
     newQuestion();
+    console.log('clearning Out checkID?? ')
+    changeOption({
+      checkedName: "",
+      checkedId: null,
+    })
   };
 
   return (
@@ -135,4 +152,4 @@ const mapStateToProps = (state) => ({
   currentQ: state.quest.currentQuestion,
 });
 
-export default connect(mapStateToProps, { newQuestion })(Question);
+export default connect(mapStateToProps, { newQuestion, checkAnswer })(Question);

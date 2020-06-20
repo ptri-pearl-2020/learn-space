@@ -1,5 +1,46 @@
 import axios from "axios";
-import { QUESTIONS_LOADED, GET_NEXT_QUESTION } from "../constants/actionTypes";
+import {
+  QUESTIONS_LOADED,
+  GET_NEXT_QUESTION,
+  CORRECT_ANSWER,
+  WRONG_ANSWER,
+} from "../constants/actionTypes";
+
+export const checkAnswer = (checkedId) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const url = `http://localhost:3000/answers/`;
+  const body = { id: checkedId};
+
+  try {
+    // send a post request to answers
+    const res = await axios.post(
+      url,
+      config,
+      body, 
+    );
+    //check key
+    //if res data has
+    if (res.data.score) {
+      dispatch({
+        type: CORRECT_ANSWER,
+        payload: res.data.score,
+      });
+    } else {
+      dispatch({
+        type: WRONG_ANSWER,
+      });
+    }
+
+  } catch (err) {
+    // login fail
+    console.error(err);
+  }
+}
+
 
 export const loadQuestions = (courseId, history) => async (dispatch) => {
   const config = {
@@ -25,12 +66,10 @@ export const loadQuestions = (courseId, history) => async (dispatch) => {
           answer: question.answer_text,
         });
       else
-        questionData[question.questions] = [
-          {
-            id: question.id,
-            answer: question.answer_text,
-          },
-        ];
+        questionData[question.questions] = [{
+          id: question.id,
+          answer: question.answer_text,
+        }, ];
     }
 
     console.log(`QuestionData! `, questionData);
