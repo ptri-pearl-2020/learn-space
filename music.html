@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <button onclick="playRight()" type="button" name="button">PLAY Right</button>
+    <button onclick="playWrong()" type="button" name="button">PLAY Wrong</button>
+  </body>
+</html>
+
+<script>
+let audioCtx = new(window.AudioContext || window.webkitAudioContext);
+
+function playR(noteFreq, duration) {
+  // create Oscillator node
+  let oscillator = audioCtx.createOscillator();
+
+  oscillator.type = 'sine';
+  oscillator.frequency.value = noteFreq; // value in hertz
+  oscillator.connect(audioCtx.destination);
+  oscillator.start();
+
+  setTimeout(
+    function() {
+      oscillator.stop(); //avoid continuous sound
+      playRight();
+    }, duration);
+}
+
+function playRight() {
+  if (rightAnswer.length > 0) {
+    note = rightAnswer.shift();
+    playR(note[0], 100);
+  } else { //reset
+    rightAnswer = [
+      [195.998],
+      [246.942],
+      [293.665],
+      [391.995],
+      [493.883],
+      [587.330],
+      [783.991],
+    ];
+  }
+}
+
+function playW(noteFreq, duration) {
+  // create Oscillator node
+  let oscillator = audioCtx.createOscillator();
+
+  oscillator.type = 'sine';
+  oscillator.frequency.value = noteFreq; // value in hertz
+  oscillator.connect(audioCtx.destination);
+  oscillator.start();
+
+  setTimeout(
+    function() {
+      oscillator.stop(); //avoid continuous sound
+      playWrong();
+    }, duration);
+}
+
+function playWrong() {
+  if (wrongAnswer.length > 0) {
+    note = wrongAnswer.shift();
+    playW(note[0], 100);
+  } else {
+    wrongAnswer = [
+    [317.183],
+    [297.183],
+    [277.183],
+    [261.626],
+      [246.942],
+      [220.000],
+      [207.652],
+      [195.998],
+    ];
+  }
+}
+let rightAnswer = [
+  [195.998],
+  [246.942],
+  [293.665],
+  [391.995],
+  [493.883],
+  [587.330],
+  [783.991],
+];
+
+let wrongAnswer = [
+[317.183],
+[297.183],
+[277.183],
+[261.626],
+  [246.942],
+  [220.000],
+  [207.652],
+  [195.998],
+];
+
+</script>
