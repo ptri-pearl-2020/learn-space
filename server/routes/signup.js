@@ -14,8 +14,8 @@ const saltRounds = 10;
 const privateKEY = fs.readFileSync(path.join(__dirname, '../', 'private.key'), 'utf8');
 // const publicKEY = fs.readFileSync(`${__dirname}/public.key`, 'utf8');
 const signOptions = {
-  expiresIn: '36h',
-  algorithm: 'RS256'
+  expiresIn: '72h'
+  // algorithm: 'RS256'
 };
 
 // format email by converting to lowercase, and removing periods in email
@@ -67,15 +67,46 @@ router.post('/signup', async (req, res) => {
     INSERT INTO "user".members (firstName, lastName, email, password)
     VALUES ('${firstName}', '${lastName}', '${scrubbedEmail}', '${hashedPassword}')`;
 
-  // insert into enrollments table user sign up for SQL, JS, Python
-
+  // insert new user into user.members table after verifying the email is
+  // available
   try {
     await db.query(insertUserQuery);
-
-    return res.send({ token });
   } catch (error) {
     return res.status(400).json({ errors: [{ message: `Datbase user save error: ${error}` }] });
   }
+
+  // insert into enrollments table user sign up for SQL, JS, Python
+  let userId = null;
+  try {
+    // need to get user id from the database for the newly created user
+    const userIdQuery = `
+      SELECT user_id
+      FROM "user".members
+      WHERE email = '${scrubbedEmail}';
+    `;
+    userId = await db.query(userIdQuery);
+    userId = userId.rows[0].user_id;
+  } catch (err) {
+    console.error(`New user_id query to database in new user sign: ${err}`);
+  }
+
+  // Add new user id to enrollments table assigned to three courses
+  try {
+    // use new user id with a join to create a new user id with the three class
+    // ids in the enrollments table
+    const newUserEnrollQuery = `
+      INSERT INTO "user".enrollments (course_id, user_id)
+      SELECT *
+      FROM (SELECT course_id FROM courses.classes) c
+      CROSS JOIN (SELECT "user".members.user_id FROM "user".members WHERE user_id = '${userId}') u;
+    `;
+
+    db.query(newUserEnrollQuery);
+  } catch (err) {
+    console.error(`Add user id with course enrollements error: ${err}`);
+  }
+
+  return res.send({ token });
 });
 
 module.exports = router;
