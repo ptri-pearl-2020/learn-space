@@ -5,7 +5,7 @@ const Landing = () => (
   <div className="landing">
     <div className="darkness">
       <div className="landing-inner">
-        <h1> A Place to Learn What You Want to Learn</h1>
+        <h1> Catch the learning bug, not the other one ;)</h1>
         <div className="landingButtons">
           <Link to="/signup">
             <button>Sign Up</button>

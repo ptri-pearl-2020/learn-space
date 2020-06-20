@@ -13,15 +13,11 @@ export const checkAnswer = (checkedId) => async (dispatch) => {
     },
   };
   const url = `http://localhost:3000/answers/`;
-  const body = JSON.stringify({ id: checkedId});
+  const body = JSON.stringify({ id: checkedId });
 
   try {
     // send a post request to answers
-    const res = await axios.post(
-      url,
-      body,
-      config
-    );
+    const res = await axios.post(url, body, config);
     //check key
     //if res data has
     if (res.data.score) {
@@ -34,13 +30,11 @@ export const checkAnswer = (checkedId) => async (dispatch) => {
         type: WRONG_ANSWER,
       });
     }
-
   } catch (err) {
     // login fail
     console.error(err);
   }
-}
-
+};
 
 export const loadQuestions = (courseId, history) => async (dispatch) => {
   const config = {
@@ -66,10 +60,12 @@ export const loadQuestions = (courseId, history) => async (dispatch) => {
           answer: question.answer_text,
         });
       else
-        questionData[question.questions] = [{
-          id: question.id,
-          answer: question.answer_text,
-        }, ];
+        questionData[question.questions] = [
+          {
+            id: question.id,
+            answer: question.answer_text,
+          },
+        ];
     }
 
     console.log(`QuestionData! `, questionData);

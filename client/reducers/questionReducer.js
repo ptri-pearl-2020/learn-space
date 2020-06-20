@@ -9,7 +9,10 @@
  * ************************************
  */
 
-import { QUESTIONS_LOADED, GET_NEXT_QUESTION } from "../constants/actionTypes";
+import {
+  QUESTIONS_LOADED,
+  GET_NEXT_QUESTION
+} from "../constants/actionTypes";
 
 const initialState = {
   questions: [],
@@ -37,6 +40,6 @@ export default function (state = initialState, action) {
         };
       else return initialState;
     default:
-      return initialState;
+      return state;
   }
 }

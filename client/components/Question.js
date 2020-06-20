@@ -16,25 +16,25 @@ const Question = ({ currentQ, newQuestion, checkAnswer }) => {
   });
   const { checkedName, checkedId } = checkedOption;
   useEffect(() => {
-    console.log('clearning Out checkID ')
+    console.log("clearning Out checkID ");
     changeOption({
       checkedName: "",
       checkedId: null,
       currentQId: currentQ.questionText,
-    })
-  }, [])
+    });
+  }, []);
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(`checkedId `, checkedId);
     //update score - make post req to answer route
-    // checkAnswer(checkedId); //BUG Deletes all questions from state
-    console.log('about to Invote NEW QUESTION ')
+    checkAnswer(checkedId); //BUG Deletes all questions from state
+    console.log("about to Invote NEW QUESTION ");
     newQuestion();
-    console.log('clearning Out checkID ')
+    console.log("clearning Out checkID ");
     changeOption({
       checkedName: "",
       checkedId: null,
-    })
+    });
   };
 
   return (
