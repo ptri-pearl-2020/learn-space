@@ -7,6 +7,7 @@ import {
   AUTH_ERROR,
   LOGOUT,
   CORRECT_ANSWER,
+  WRONG_ANSWER,
 } from "../constants/actionTypes";
 
 const initialState = {
@@ -41,6 +42,10 @@ export default function (state = initialState, action) {
       const userData = { ...state.user };
       userData.score++;
       return { ...state, user: userData };
+
+      case WRONG_ANSWER:
+        return state;
+
     case REGISTER_FAIL:
     case AUTH_ERROR:
     case LOGIN_FAIL:
