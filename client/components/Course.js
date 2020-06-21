@@ -6,7 +6,7 @@ const Course = (props) => {
     "Python Course": "py-course",
     "SQL Course": "sql-course",
   };
-  console.log(props.id);
+
   return (
     <div
       className={`course ${courseDict[props.courseName]}`}

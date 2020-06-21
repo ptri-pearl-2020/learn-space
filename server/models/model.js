@@ -8,7 +8,6 @@ const pool = new Pool({ connectionString: dbConnect });
 module.exports = {
   query: (text, params, callback) => {
     // when importing modelJS, it will log the queries run
-    console.log('executed query: ', text);
     return pool.query(text, params, callback); // executes query using dbconnect
   }
 };

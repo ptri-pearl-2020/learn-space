@@ -14,7 +14,8 @@ const Signup = ({ register, isAuthenticated, user }) => {
     lastName: ''
   });
 
-  const { email, password, firstName, lastName } = formData;
+  const { email, password, firstName, lastName } = formData; //grabbind info from
+//signup form data
 
   // when the user types, the appropriate property in state is changed
   const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,7 +27,6 @@ const Signup = ({ register, isAuthenticated, user }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
     register(email, password, firstName, lastName);
   };
 

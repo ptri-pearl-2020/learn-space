@@ -15,8 +15,7 @@ const Question = ({ currentQ, newQuestion, checkAnswer }) => {
     currentQId: currentQ.questionText,
   });
   const { checkedName, checkedId } = checkedOption;
-  useEffect(() => {
-    console.log("clearning Out checkID ");
+  useEffect(() => { //clear radio buttons
     changeOption({
       checkedName: "",
       checkedId: null,
@@ -25,13 +24,10 @@ const Question = ({ currentQ, newQuestion, checkAnswer }) => {
   }, []);
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(`checkedId `, checkedId);
     //update score - make post req to answer route
-    checkAnswer(checkedId); //BUG Deletes all questions from state
-    console.log("about to Invote NEW QUESTION ");
+    checkAnswer(checkedId);
     newQuestion();
-    console.log("clearning Out checkID ");
-    changeOption({
+    changeOption({ //clear radio buttons for next question
       checkedName: "",
       checkedId: null,
     });

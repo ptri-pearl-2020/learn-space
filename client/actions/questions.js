@@ -43,7 +43,6 @@ export const loadQuestions = (courseId, history) => async (dispatch) => {
     },
   };
   const url = `http://localhost:3000/courses/${courseId}`;
-  console.log(`url `, url);
 
   try {
     // send a post request to signup
@@ -68,10 +67,10 @@ export const loadQuestions = (courseId, history) => async (dispatch) => {
         ];
     }
 
-    console.log(`QuestionData! `, questionData);
+
     const questionDataForState = [];
     for (let question in questionData) {
-      console.log(question);
+
       questionDataForState.push({
         questionText: question,
         answers: questionData[question],
@@ -91,7 +90,7 @@ export const loadQuestions = (courseId, history) => async (dispatch) => {
 };
 
 export const newQuestion = () => (dispatch) => {
-  console.log("invoking GET_NEXT_QUESTION from questions.js");
+
   dispatch({
     type: GET_NEXT_QUESTION,
   });

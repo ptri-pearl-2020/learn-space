@@ -84,7 +84,7 @@ ul {
   justify-content: space-between;
   align-items: center;
   width: 50%;
-} 
+}
 
 @media only screen and (min-width: 1000px){
   .landingButtons {
@@ -92,7 +92,7 @@ ul {
     justify-content: space-between;
     align-items: center;
     max-width: 400px;
-  } 
+  }
 }
 
 .landingButtons button {
@@ -111,7 +111,7 @@ ul {
 @media (max-width: 700px){
   .courses {
     display: grid;
-  }    
+  }
   .course {
     max-width: 400px;
     width: 70vw;
@@ -123,7 +123,7 @@ ul {
     display: flex;
     justify-content: space-between;
     align-items: center;
-  }  
+  }
 
   .darkness-course{
     background-color: rgba(0,0,0,0.5);
@@ -146,7 +146,7 @@ ul {
   }
 }
 
-.js-course {  
+.js-course {
   background: url("../assets/images/js_logo.png") no-repeat center center/cover;
   background-size: auto;
 }
