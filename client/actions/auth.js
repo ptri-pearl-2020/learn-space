@@ -26,7 +26,6 @@ import setAuthToken from '../utils/setAuthToken';
 // Load User
 export const loadUser = () => async (dispatch) => {
   if (localStorage.getItem('token')) {
-    console.log('token before GET to dashboard', localStorage.getItem('token'));
     setAuthToken(localStorage.getItem('token'));
   }
 
@@ -81,8 +80,6 @@ export const register = (email, password, firstName, lastName) => async (dispatc
       type: REGISTER_SUCCESS,
       payload: res.data
     });
-    console.log('After dispatching REGISTER_SUCCESS', new Date().toUTCString());
-
     // call the loadUser()
     dispatch(loadUser());
   } catch (err) {
@@ -104,7 +101,6 @@ export const login = (email, password) => async (dispatch) => {
   try {
     const res = await axios.post('http://localhost:3000/login', body, config);
 
-    console.log('LOGIN_SUCCESS', new Date().toUTCString());
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data

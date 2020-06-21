@@ -21,7 +21,6 @@ export default function (state = initialState, action) {
 
   switch (type) {
     case USER_LOADED:
-      console.log("In USER_LOADED switch statement", new Date().toUTCString());
       return {
         ...state,
         isAuthenticated: true,
@@ -30,7 +29,6 @@ export default function (state = initialState, action) {
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
-      console.log(`Woohoo! ${type}`);
       // now that we get the token from the backend, save it to localStorage
       localStorage.setItem("token", payload.token);
       return {

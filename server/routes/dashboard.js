@@ -4,7 +4,6 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
 const privateKEY = fs.readFileSync(path.join(__dirname, '../', 'private.key'), 'utf8');
-console.log('privateKey:', privateKEY);
 const router = express.Router();
 
 // import model and connect to the database
@@ -13,11 +12,9 @@ const db = require('../models/model');
 // set up route at dashboard for get request to translate token into user id
 router.get('/dashboard', async (req, res) => {
   const token = req.header('x-auth-token');
-  console.log(`GET request to /dashboard ${token}`);
   if (!token) return res.status(422).json({ errors: [{ message: 'No token set' }] });
 
   const { userId } = jwt.verify(token, privateKEY);
-  console.log('userId =', JSON.stringify(userId));
 
   const userQuery = `
     SELECT
@@ -45,12 +42,10 @@ router.get('/dashboard', async (req, res) => {
   //   score: 0
   // }
   try {
-    console.log('Before inner joins run: ', new Date().getTime().toString());
     const userData = await db.query(userQuery);
     const { firstname, score } = userData.rows[0];
     const courseData = await db.query(coursesQuery);
 
-    console.log('After inner joins run: ', new Date().getTime().toString());
     // If valid user credentials, return JWT to the frontend
     res.json({ name_info: firstname, courses: courseData.rows, score });
   } catch (error) {

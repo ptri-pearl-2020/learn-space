@@ -45,7 +45,7 @@ router.post('/login', async (req, res) => {
       // need to query database to send back courses
 
       // return validUserLogin boolean to the frontend
-      console.log('Sending jwt after login', new Date().toUTCString());
+
       return res.json({ token });
     }
   } catch (error) {
