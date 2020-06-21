@@ -1,6 +1,6 @@
 # learn-space
 
-#SIGNUP
+## SIGNUP
 note - Signup.js & signup.js are different.
 
 Signup form interacts with Signup.JS, and state is updated on onChange event.
@@ -22,7 +22,7 @@ directed to /dashboard now.
 => client/reducers/authReducer.js case user_loaded:
 sets user authentication to true, & contains all relevant user info.
 
-#LOGIN
+## LOGIN
 similar to #Signup.
 
 login form => Login.js => on submit dispatch Login_success with token. Once complete => dispatch(loadUser) => if token then header contains token. => Dispatch user_loaded => state updated => success? => /dashboard.
@@ -30,7 +30,7 @@ login form => Login.js => on submit dispatch Login_success with token. Once comp
 User is fetched from DB instead of being created. Encryption is not used, but token is created again and saved to local storage.
 
 
-#COURSES
+## COURSES
 /dashboard => handled in Dashboard.js.
 dashboard renders user and course data for display.
 
@@ -38,7 +38,7 @@ each course box will have tie to loadQuestions().
 onclick => actions/questions.js => using courseId try to get questions from database.
 => reducers/questionreducer/questions_loaded => state updated.
 
-#QUESTIONS
+## QUESTIONS
 /questions => Questions.js
 if question => get available answers
 => render answers.
